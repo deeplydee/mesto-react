@@ -1,13 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './images/header-logo.svg';
+import avatar from './images/avatar.jpg';
 
 function App() {
   return (
-    <body className="page">
+    <div className="page">
     <header className="header">
       <img
         className="header__logo"
-        src="<%=require('./images/header-logo.svg')%>"
+        src={logo}
         alt="Лого Место Россия"
       />
     </header>
@@ -17,7 +17,7 @@ function App() {
         <div className="profile__avatar-container">
           <img
             className="profile__avatar"
-            src="<%=require('./images/avatar.jpg')%>"
+            src={avatar}
             alt="Аватар пользователя"
           />
           <button
@@ -264,7 +264,7 @@ function App() {
         </div>
       </li>
     </template>
-  </body>
+  </div>
   );
 }
 
