@@ -1,6 +1,9 @@
 function PopupWithForm(props) {
+
+  const isOpened = props.isOpen ? 'popup_is-opened' : '';
+
   return (
-    <section className={`popup popup_type_${props.name}`}>
+    <section className={`popup popup_type_${props.name} ${isOpened}`}>
       <div className="popup__container">
         <button
           className="popup__close-button"

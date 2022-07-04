@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -5,13 +7,56 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
 function App() {
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+  }
+
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
+  }
+
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+  }
+
   return (
     <div className="page">
       <Header />
-      <Main />
+      <Main
+        onEditAvatar={handleEditAvatarClick}
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+      />
       <Footer />
 
-      <PopupWithForm title="Редактировать профиль" name="profile-edit">
+      <PopupWithForm
+        title="Обновить аватар"
+        name="change-avatar"
+        isOpen={isEditAvatarPopupOpen}
+      >
+        <input
+          className="popup__data-input popup__data-input_type_avatar-link"
+          type="url"
+          name="avatar"
+          placeholder="Ссылка на аватар"
+          required
+          id="avatar-link-input"
+        />
+        <span
+          className="popup__error popup__error_visible"
+          id="avatar-link-input-error"
+        ></span>
+      </PopupWithForm>
+
+      <PopupWithForm
+        title="Редактировать профиль"
+        name="profile-edit"
+        isOpen={isEditProfilePopupOpen}
+      >
         <input
           className="popup__data-input popup__data-input_type_profile-name"
           type="text"
@@ -42,7 +87,11 @@ function App() {
         ></span>
       </PopupWithForm>
 
-      <PopupWithForm title="Новое место" name="card-add">
+      <PopupWithForm
+        title="Новое место"
+        name="card-add"
+        isOpen={isAddPlacePopupOpen}
+      >
         <input
           className="popup__data-input popup__data-input_type_card-name"
           type="text"
@@ -68,21 +117,6 @@ function App() {
         <span
           className="popup__error popup__error_visible"
           id="card-link-input-error"
-        ></span>
-      </PopupWithForm>
-
-      <PopupWithForm title="Обновить аватар" name="change-avatar">
-        <input
-          className="popup__data-input popup__data-input_type_avatar-link"
-          type="url"
-          name="avatar"
-          placeholder="Ссылка на аватар"
-          required
-          id="avatar-link-input"
-        />
-        <span
-          className="popup__error popup__error_visible"
-          id="avatar-link-input-error"
         ></span>
       </PopupWithForm>
 

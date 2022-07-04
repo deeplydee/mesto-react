@@ -1,22 +1,6 @@
 import avatar from '../images/avatar.jpg';
 
-function Main() {
-
-  function handleEditAvatarClick() {
-    const buttonEditAvatarClick = document.querySelector('.popup_type_change-avatar');
-    buttonEditAvatarClick.classList.add('popup_is-opened');
-  }
-
-  function handleEditProfileClick() {
-    const buttonEditProfileClick = document.querySelector('.popup_type_profile-edit');
-    buttonEditProfileClick.classList.add('popup_is-opened');
-  }
-
-  function handleAddPlaceClick() {
-    const buttonAddPlaceClick = document.querySelector('.popup_type_card-add');
-    buttonAddPlaceClick.classList.add('popup_is-opened');
-  }
-
+function Main(props) {
   return (
     <main className="content">
       <section className="profile">
@@ -30,7 +14,7 @@ function Main() {
             className="profile__avatar-button"
             type="button"
             aria-label="Изменить аватар"
-            onClick={handleEditAvatarClick}
+            onClick={props.onEditAvatar}
           ></button>
         </div>
         <div className="profile__info">
@@ -40,7 +24,7 @@ function Main() {
               className="profile__edit-button"
               type="button"
               aria-label="Редактировать профиль"
-              onClick={handleEditProfileClick}
+              onClick={props.onEditProfile}
             ></button>
           </div>
           <p className="profile__description">Исследователь океана</p>
@@ -49,7 +33,7 @@ function Main() {
           className="profile__add-button"
           type="button"
           aria-label="Добавить карточку"
-          onClick={handleAddPlaceClick}
+          onClick={props.onAddPlace}
         ></button>
       </section>
 
