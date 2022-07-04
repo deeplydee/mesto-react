@@ -1,6 +1,7 @@
 import Header from './Header';
-import Main from './Main'
-import Footer from './Footer'
+import Main from './Main';
+import Footer from './Footer';
+import PopupWithForm from './PopupWithForm';
 
 function App() {
   return (
@@ -9,155 +10,88 @@ function App() {
       <Main />
       <Footer />
 
-      <section className="popup popup_type_profile-edit">
-        <div className="popup__container">
-          <button
-            className="popup__close-button"
-            type="button"
-            aria-label="Закрыть"
-          ></button>
-          <h2 className="popup__form-heading">Редактировать профиль</h2>
-          <form
-            className="popup__form popup__form_type_profile-edit"
-            name="profile-edit"
-            novalidate
-          >
-            <div className="popup__main-container">
-              <fieldset className="popup__form-input-container">
-                <input
-                  className="popup__data-input popup__data-input_type_profile-name"
-                  type="text"
-                  name="name"
-                  placeholder="Имя"
-                  required
-                  minlength="2"
-                  maxlength="40"
-                  id="profile-name-input"
-                />
-                <span
-                  className="popup__error popup__error_visible"
-                  id="profile-name-input-error"
-                ></span>
-                <input
-                  className="popup__data-input popup__data-input_type_profile-description"
-                  type="text"
-                  name="about"
-                  placeholder="О себе"
-                  required
-                  minlength="2"
-                  maxlength="200"
-                  id="profile-description-input"
-                />
-                <span
-                  className="popup__error popup__error_visible"
-                  id="profile-description-input-error"
-                ></span>
-              </fieldset>
-              <button
-                className="popup__form-submit"
-                type="submit"
-                aria-label="Сохранить изменения"
-              >
-                Сохранить
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
+      <PopupWithForm title="Редактировать профиль" name="profile-edit">
+        <input
+          className="popup__data-input popup__data-input_type_profile-name"
+          type="text"
+          name="name"
+          placeholder="Имя"
+          required
+          minLength="2"
+          maxLength="40"
+          id="profile-name-input"
+        />
+        <span
+          className="popup__error popup__error_visible"
+          id="profile-name-input-error"
+        ></span>
+        <input
+          className="popup__data-input popup__data-input_type_profile-description"
+          type="text"
+          name="about"
+          placeholder="О себе"
+          required
+          minLength="2"
+          maxLength="200"
+          id="profile-description-input"
+        />
+        <span
+          className="popup__error popup__error_visible"
+          id="profile-description-input-error"
+        ></span>
+      </PopupWithForm>
 
-      <section className="popup popup_type_card-add">
-        <div className="popup__container">
-          <button
-            className="popup__close-button"
-            type="button"
-            aria-label="Закрыть"
-          ></button>
-          <h2 className="popup__form-heading">Новое место</h2>
-          <form
-            className="popup__form popup__form_type_card-add"
-            name="card-add"
-            novalidate
-          >
-            <div className="popup__main-container">
-              <fieldset className="popup__form-input-container">
-                <input
-                  className="popup__data-input popup__data-input_type_card-name"
-                  type="text"
-                  name="name"
-                  placeholder="Название"
-                  required
-                  minlength="2"
-                  maxlength="30"
-                  id="card-name-input"
-                />
-                <span
-                  className="popup__error popup__error_visible"
-                  id="card-name-input-error"
-                ></span>
-                <input
-                  className="popup__data-input popup__data-input_type_card-link"
-                  type="url"
-                  name="link"
-                  placeholder="Ссылка на картинку"
-                  required
-                  id="card-link-input"
-                />
-                <span
-                  className="popup__error popup__error_visible"
-                  id="card-link-input-error"
-                ></span>
-              </fieldset>
-              <button
-                className="popup__form-submit"
-                type="submit"
-                aria-label="Создать карточку"
-              >
-                Создать
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
+      <PopupWithForm title="Новое место" name="card-add">
+        <input
+          className="popup__data-input popup__data-input_type_card-name"
+          type="text"
+          name="name"
+          placeholder="Название"
+          required
+          minLength="2"
+          maxLength="30"
+          id="card-name-input"
+        />
+        <span
+          className="popup__error popup__error_visible"
+          id="card-name-input-error"
+        ></span>
+        <input
+          className="popup__data-input popup__data-input_type_card-link"
+          type="url"
+          name="link"
+          placeholder="Ссылка на картинку"
+          required
+          id="card-link-input"
+        />
+        <span
+          className="popup__error popup__error_visible"
+          id="card-link-input-error"
+        ></span>
+      </PopupWithForm>
 
-      <section className="popup popup_type_change-avatar">
-        <div className="popup__container">
-          <button
-            className="popup__close-button"
-            type="button"
-            aria-label="Закрыть"
-          ></button>
-          <h2 className="popup__form-heading">Обновить аватар</h2>
-          <form
-            className="popup__form popup__form_type_change-avatar"
-            name="avatar"
-            novalidate
-          >
-            <div className="popup__main-container">
-              <fieldset className="popup__form-input-container">
-                <input
-                  className="popup__data-input popup__data-input_type_avatar-link"
-                  type="url"
-                  name="avatar"
-                  placeholder="Ссылка на аватар"
-                  required
-                  id="avatar-link-input"
-                />
-                <span
-                  className="popup__error popup__error_visible"
-                  id="avatar-link-input-error"
-                ></span>
-              </fieldset>
-              <button
-                className="popup__form-submit"
-                type="submit"
-                aria-label="Обновить аватар"
-              >
-                Сохранить
-              </button>
-            </div>
-          </form>
+      <PopupWithForm title="Обновить аватар" name="change-avatar">
+        <input
+          className="popup__data-input popup__data-input_type_avatar-link"
+          type="url"
+          name="avatar"
+          placeholder="Ссылка на аватар"
+          required
+          id="avatar-link-input"
+        />
+        <span
+          className="popup__error popup__error_visible"
+          id="avatar-link-input-error"
+        ></span>
+      </PopupWithForm>
+
+      <PopupWithForm title="Вы уверены?" name="сonfirmation">
+        <div className="popup__main-container">
+          <button className="popup__form-submit" type="submit" aria-label="Да">
+            Да
+          </button>
         </div>
-      </section>
+      </PopupWithForm>
 
       <section className="popup popup_type_overview">
         <div className="popup__container popup__container_place_overview">
@@ -170,32 +104,6 @@ function App() {
             <img className="overview__image" src="#" alt="#" />
             <p className="overview__title"></p>
           </div>
-        </div>
-      </section>
-
-      <section className="popup popup_type_delete-card">
-        <div className="popup__container">
-          <button
-            className="popup__close-button"
-            type="button"
-            aria-label="Закрыть"
-          ></button>
-          <h2 className="popup__form-heading">Вы уверены?</h2>
-          <form
-            className="popup__form popup__form_type_delete-card"
-            name="сonfirmation"
-            novalidate
-          >
-            <div className="popup__main-container">
-              <button
-                className="popup__form-submit"
-                type="submit"
-                aria-label="Да"
-              >
-                Да
-              </button>
-            </div>
-          </form>
         </div>
       </section>
 
