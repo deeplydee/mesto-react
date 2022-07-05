@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import avatar from '../images/avatar.jpg';
 import api from '../utils/api.js';
+import Card from './Card';
 
 function Main(props) {
   const [userAvatar, setUserAvatar] = useState(avatar);
   const [userName, setUserName] = useState('Жак-Ив Кусто');
   const [userDescription, setUserDescription] = useState('Исследователь океана');
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     api
@@ -18,7 +20,15 @@ function Main(props) {
       .catch((err) => {
         console.log(err);
       });
-  });
+    api
+      .getInitialCards()
+      .then((data) => {
+        setCards(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <main className="content">
@@ -57,7 +67,14 @@ function Main(props) {
       </section>
 
       <section className="photo-grid">
-        <ul className="photo-grid__list"></ul>
+        <ul className="photo-grid__list">
+          {cards.map((card) => (
+            <Card
+              key={card._id}
+              card={card}
+            />
+          ))}
+        </ul>
       </section>
     </main>
   );
