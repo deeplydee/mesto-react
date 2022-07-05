@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Header from './Header';
 import Main from './Main';
@@ -23,6 +23,34 @@ function App() {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
+  function closeAllPopups() {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+  }
+
+  function closePressButton(evt) {
+    if (evt.key === 'Escape') {
+      closeAllPopups();
+    }
+  }
+
+  function closeClickOverlay(evt) {
+    if (evt.target.classList.contains('popup_is-opened')) {
+      closeAllPopups();
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', closePressButton);
+    document.addEventListener('mousedown', closeClickOverlay);
+
+    return () => {
+      document.removeEventListener('mousedown', closeClickOverlay);
+      document.removeEventListener('keydown', closePressButton);
+    };
+  }, [isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOpen]);
+
   return (
     <div className="page">
       <Header />
@@ -37,6 +65,7 @@ function App() {
         title="Обновить аватар"
         name="change-avatar"
         isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
       >
         <input
           className="popup__data-input popup__data-input_type_avatar-link"
@@ -56,6 +85,7 @@ function App() {
         title="Редактировать профиль"
         name="profile-edit"
         isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
       >
         <input
           className="popup__data-input popup__data-input_type_profile-name"
@@ -91,6 +121,7 @@ function App() {
         title="Новое место"
         name="card-add"
         isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
       >
         <input
           className="popup__data-input popup__data-input_type_card-name"
@@ -120,7 +151,11 @@ function App() {
         ></span>
       </PopupWithForm>
 
-      <PopupWithForm title="Вы уверены?" name="сonfirmation">
+      <PopupWithForm
+        title="Вы уверены?"
+        name="сonfirmation"
+        onClose={closeAllPopups}
+      >
         <div className="popup__main-container">
           <button className="popup__form-submit" type="submit" aria-label="Да">
             Да
