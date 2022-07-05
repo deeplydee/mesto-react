@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+
 import avatar from '../images/avatar.jpg';
 import api from '../utils/api.js';
-import Card from './Card';
+import Card from './Card.js';
 
 function Main(props) {
   const [userAvatar, setUserAvatar] = useState(avatar);
@@ -72,6 +73,7 @@ function Main(props) {
             <Card
               key={card._id}
               card={card}
+              onCardClick={props.onCardClick}
             />
           ))}
         </ul>

@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 
-import Header from './Header';
-import Main from './Main';
-import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
-import ImagePopup from './ImagePopup';
+import Header from './Header.js';
+import Main from './Main.js';
+import Footer from './Footer.js';
+import PopupWithForm from './PopupWithForm.js';
+import ImagePopup from './ImagePopup.js';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -23,10 +24,15 @@ function App() {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard({});
   }
 
   function closePressButton(evt) {
@@ -49,7 +55,7 @@ function App() {
       document.removeEventListener('mousedown', closeClickOverlay);
       document.removeEventListener('keydown', closePressButton);
     };
-  }, [isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOpen]);
+  });
 
   return (
     <div className="page">
@@ -58,6 +64,7 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
 
@@ -163,21 +170,10 @@ function App() {
         </div>
       </PopupWithForm>
 
-      <ImagePopup></ImagePopup>
-
-      <section className="popup popup_type_overview">
-        <div className="popup__container popup__container_place_overview">
-          <button
-            className="popup__close-button"
-            type="button"
-            aria-label="Закрыть"
-          ></button>
-          <div className="overview">
-            <img className="overview__image" src="#" alt="#" />
-            <p className="overview__title"></p>
-          </div>
-        </div>
-      </section>
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}
+      />
 
     </div>
   );

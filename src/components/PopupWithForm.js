@@ -1,5 +1,4 @@
 function PopupWithForm(props) {
-
   const isOpened = props.isOpen ? 'popup_is-opened' : '';
 
   return (
