@@ -1,13 +1,32 @@
+import { useState, useEffect } from 'react';
 import avatar from '../images/avatar.jpg';
+import api from '../utils/api.js';
 
 function Main(props) {
+  const [userAvatar, setUserAvatar] = useState(avatar);
+  const [userName, setUserName] = useState('Жак-Ив Кусто');
+  const [userDescription, setUserDescription] = useState('Исследователь океана');
+
+  useEffect(() => {
+    api
+      .getUserData()
+      .then((data) => {
+        setUserAvatar(data.avatar);
+        setUserName(data.name);
+        setUserDescription(data.about);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__avatar-container">
           <img
             className="profile__avatar"
-            src={avatar}
+            src={userAvatar}
             alt="Аватар пользователя"
           />
           <button
@@ -19,7 +38,7 @@ function Main(props) {
         </div>
         <div className="profile__info">
           <div className="profile__wrapper">
-            <h1 className="profile__name">Жак-Ив Кусто</h1>
+            <h1 className="profile__name">{userName}</h1>
             <button
               className="profile__edit-button"
               type="button"
@@ -27,7 +46,7 @@ function Main(props) {
               onClick={props.onEditProfile}
             ></button>
           </div>
-          <p className="profile__description">Исследователь океана</p>
+          <p className="profile__description">{userDescription}</p>
         </div>
         <button
           className="profile__add-button"
@@ -41,7 +60,7 @@ function Main(props) {
         <ul className="photo-grid__list"></ul>
       </section>
     </main>
-  )
+  );
 }
 
 export default Main;
