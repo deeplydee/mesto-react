@@ -1,22 +1,22 @@
-function ImagePopup(props) {
-  const isOpenedOverview = props.card.link ? 'popup_is-opened' : '';
-
+function ImagePopup({ card, onClose }) {
   return (
-    <section className={`popup popup_type_overview ${isOpenedOverview}`}>
+    <section
+      className={`popup popup_type_overview ${card.link && 'popup_is-opened'}`}
+    >
       <div className="popup__container popup__container_place_overview">
         <button
           className="popup__close-button"
           type="button"
           aria-label="Закрыть"
-          onClick={props.onClose}
+          onClick={onClose}
         ></button>
         <div className="overview">
           <img
             className="overview__image"
-            src={props.card.link}
-            alt={props.card.name}
+            src={card.link}
+            alt={card.name}
           />
-          <p className="overview__title">{props.card.name}</p>
+          <p className="overview__title">{card.name}</p>
         </div>
       </div>
     </section>

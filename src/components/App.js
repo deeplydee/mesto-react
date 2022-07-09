@@ -12,16 +12,16 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
 
-  function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+  function handleOpenEditAvatarPopup() {
+    setIsEditAvatarPopupOpen(true);
   }
 
-  function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
+  function handleOpenEditProfilePopup() {
+    setIsEditProfilePopupOpen(true);
   }
 
-  function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+  function handleOpenAddPlacePopup() {
+    setIsAddPlacePopupOpen(true);
   }
 
   function handleCardClick(card) {
@@ -35,35 +35,35 @@ function App() {
     setSelectedCard({});
   }
 
-  function closePressButton(evt) {
-    if (evt.key === 'Escape') {
-      closeAllPopups();
-    }
-  }
-
-  function closeClickOverlay(evt) {
-    if (evt.target.classList.contains('popup_is-opened')) {
-      closeAllPopups();
-    }
-  }
-
   useEffect(() => {
-    document.addEventListener('keydown', closePressButton);
+    function handleEscKeyPress(evt) {
+      if (evt.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
+
+    function closeClickOverlay(evt) {
+      if (evt.target.classList.contains('popup_is-opened')) {
+        closeAllPopups();
+      }
+    }
+
+    document.addEventListener('keydown', handleEscKeyPress);
     document.addEventListener('mousedown', closeClickOverlay);
 
     return () => {
       document.removeEventListener('mousedown', closeClickOverlay);
-      document.removeEventListener('keydown', closePressButton);
+      document.removeEventListener('keydown', handleEscKeyPress);
     };
-  });
+  }, [isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOpen]);
 
   return (
     <div className="page">
       <Header />
       <Main
-        onEditAvatar={handleEditAvatarClick}
-        onEditProfile={handleEditProfileClick}
-        onAddPlace={handleAddPlaceClick}
+        onEditAvatar={handleOpenEditAvatarPopup}
+        onEditProfile={handleOpenEditProfilePopup}
+        onAddPlace={handleOpenAddPlacePopup}
         onCardClick={handleCardClick}
       />
       <Footer />
@@ -174,7 +174,6 @@ function App() {
         card={selectedCard}
         onClose={closeAllPopups}
       />
-
     </div>
   );
 }

@@ -4,32 +4,33 @@ import avatar from '../images/avatar.jpg';
 import api from '../utils/api.js';
 import Card from './Card.js';
 
-function Main(props) {
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   const [userAvatar, setUserAvatar] = useState(avatar);
   const [userName, setUserName] = useState('Жак-Ив Кусто');
   const [userDescription, setUserDescription] = useState('Исследователь океана');
   const [cards, setCards] = useState([]);
 
+  const cardsElements = cards.map((card) => (
+    <li className="card" key={card._id}>
+      <Card
+        card={card}
+        onCardClick={onCardClick}
+      />
+    </li>
+  ))
+
   useEffect(() => {
-    api
-      .getUserData()
-      .then((data) => {
-        setUserAvatar(data.avatar);
-        setUserName(data.name);
-        setUserDescription(data.about);
+    Promise.all([api.getUserData(), api.getInitialCards()])
+      .then(([userData, initialCards]) => {
+        setUserAvatar(userData.avatar);
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+        setCards(initialCards);
       })
       .catch((err) => {
         console.log(err);
       });
-    api
-      .getInitialCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  }, [])
 
   return (
     <main className="content">
@@ -44,7 +45,7 @@ function Main(props) {
             className="profile__avatar-button"
             type="button"
             aria-label="Изменить аватар"
-            onClick={props.onEditAvatar}
+            onClick={onEditAvatar}
           ></button>
         </div>
         <div className="profile__info">
@@ -54,7 +55,7 @@ function Main(props) {
               className="profile__edit-button"
               type="button"
               aria-label="Редактировать профиль"
-              onClick={props.onEditProfile}
+              onClick={onEditProfile}
             ></button>
           </div>
           <p className="profile__description">{userDescription}</p>
@@ -63,19 +64,13 @@ function Main(props) {
           className="profile__add-button"
           type="button"
           aria-label="Добавить карточку"
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
         ></button>
       </section>
 
       <section className="photo-grid">
         <ul className="photo-grid__list">
-          {cards.map((card) => (
-            <Card
-              key={card._id}
-              card={card}
-              onCardClick={props.onCardClick}
-            />
-          ))}
+          {cardsElements}
         </ul>
       </section>
     </main>
