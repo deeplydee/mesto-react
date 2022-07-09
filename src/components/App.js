@@ -36,26 +36,38 @@ function App() {
   }
 
   useEffect(() => {
-    function handleEscKeyPress(evt) {
-      if (evt.key === 'Escape') {
-        closeAllPopups();
+    if (
+      isEditAvatarPopupOpen ||
+      isEditProfilePopupOpen ||
+      isAddPlacePopupOpen ||
+      selectedCard
+    ) {
+      function handleEscKeyPress(evt) {
+        if (evt.key === 'Escape') {
+          closeAllPopups();
+        }
       }
-    }
 
-    function closeClickOverlay(evt) {
-      if (evt.target.classList.contains('popup_is-opened')) {
-        closeAllPopups();
+      function closeClickOverlay(evt) {
+        if (evt.target.classList.contains('popup_is-opened')) {
+          closeAllPopups();
+        }
       }
+
+      document.addEventListener('keydown', handleEscKeyPress);
+      document.addEventListener('mousedown', closeClickOverlay);
+
+      return () => {
+        document.removeEventListener('mousedown', closeClickOverlay);
+        document.removeEventListener('keydown', handleEscKeyPress);
+      };
     }
-
-    document.addEventListener('keydown', handleEscKeyPress);
-    document.addEventListener('mousedown', closeClickOverlay);
-
-    return () => {
-      document.removeEventListener('mousedown', closeClickOverlay);
-      document.removeEventListener('keydown', handleEscKeyPress);
-    };
-  }, [isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOpen]);
+  }, [
+    isEditAvatarPopupOpen,
+    isEditProfilePopupOpen,
+    isAddPlacePopupOpen,
+    selectedCard,
+  ]);
 
   return (
     <div className="page">
@@ -73,6 +85,7 @@ function App() {
         name="change-avatar"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
+        textButton={'Сохранить'}
       >
         <input
           className="popup__data-input popup__data-input_type_avatar-link"
@@ -93,6 +106,7 @@ function App() {
         name="profile-edit"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
+        textButton={'Сохранить'}
       >
         <input
           className="popup__data-input popup__data-input_type_profile-name"
@@ -129,6 +143,7 @@ function App() {
         name="card-add"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
+        textButton={'Создать'}
       >
         <input
           className="popup__data-input popup__data-input_type_card-name"
@@ -162,13 +177,8 @@ function App() {
         title="Вы уверены?"
         name="сonfirmation"
         onClose={closeAllPopups}
-      >
-        <div className="popup__main-container">
-          <button className="popup__form-submit" type="submit" aria-label="Да">
-            Да
-          </button>
-        </div>
-      </PopupWithForm>
+        textButton={'Да'}
+      ></PopupWithForm>
 
       <ImagePopup
         card={selectedCard}

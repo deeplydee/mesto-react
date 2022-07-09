@@ -1,4 +1,4 @@
-function PopupWithForm({ name, title, isOpen, onClose, children }) {
+function PopupWithForm({ name, title, isOpen, onClose, children, textButton }) {
   return (
     <section
       className={`popup popup_type_${name} ${isOpen && 'popup_is-opened'}`}
@@ -23,9 +23,9 @@ function PopupWithForm({ name, title, isOpen, onClose, children }) {
             <button
               className="popup__form-submit"
               type="submit"
-              aria-label="Сохранить изменения"
+              aria-label="{textButton}"
             >
-              Сохранить
+              {textButton}
             </button>
           </div>
         </form>
