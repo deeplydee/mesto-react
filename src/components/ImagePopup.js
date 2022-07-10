@@ -1,7 +1,7 @@
 function ImagePopup({ card, onClose }) {
   return (
     <section
-      className={`popup popup_type_overview ${card.link && 'popup_is-opened'}`}
+      className={`popup popup_type_overview ${card && 'popup_is-opened'}`}
     >
       <div className="popup__container popup__container_place_overview">
         <button
@@ -13,10 +13,10 @@ function ImagePopup({ card, onClose }) {
         <div className="overview">
           <img
             className="overview__image"
-            src={card.link}
-            alt={card.name}
+            src={card && card.link}
+            alt={card && card.name}
           />
-          <p className="overview__title">{card.name}</p>
+          <p className="overview__title">{card && card.name}</p>
         </div>
       </div>
     </section>
