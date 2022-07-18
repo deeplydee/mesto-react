@@ -9,6 +9,8 @@ import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
 
+import EditProfilePopup from './EditProfilePopup.js';
+
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -84,6 +86,18 @@ function App() {
     selectedCard,
   ]);
 
+  function handleUpdateUser(newUserData) {
+    api
+      .updateProfileData(newUserData)
+      .then((userData) => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -117,42 +131,11 @@ function App() {
           ></span>
         </PopupWithForm>
 
-        <PopupWithForm
-          title="Редактировать профиль"
-          name="profile-edit"
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          textButton={'Сохранить'}
-        >
-          <input
-            className="popup__data-input popup__data-input_type_profile-name"
-            type="text"
-            name="name"
-            placeholder="Имя"
-            required
-            minLength="2"
-            maxLength="40"
-            id="profile-name-input"
-          />
-          <span
-            className="popup__error popup__error_visible"
-            id="profile-name-input-error"
-          ></span>
-          <input
-            className="popup__data-input popup__data-input_type_profile-description"
-            type="text"
-            name="about"
-            placeholder="О себе"
-            required
-            minLength="2"
-            maxLength="200"
-            id="profile-description-input"
-          />
-          <span
-            className="popup__error popup__error_visible"
-            id="profile-description-input-error"
-          ></span>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
 
         <PopupWithForm
           title="Новое место"
