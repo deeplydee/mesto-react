@@ -9,6 +9,7 @@ import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
 
+import EditAvatarPopup from './EditAvatarPopup.js';
 import EditProfilePopup from './EditProfilePopup.js';
 
 function App() {
@@ -86,6 +87,18 @@ function App() {
     selectedCard,
   ]);
 
+  function handleUpdateAvatar(newUserAvatar) {
+    api
+      .updateAvatar(newUserAvatar)
+      .then((userData) => {
+        setCurrentUser(userData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   function handleUpdateUser(newUserData) {
     api
       .updateProfileData(newUserData)
@@ -110,26 +123,11 @@ function App() {
         />
         <Footer />
 
-        <PopupWithForm
-          title="Обновить аватар"
-          name="change-avatar"
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          textButton={'Сохранить'}
-        >
-          <input
-            className="popup__data-input popup__data-input_type_avatar-link"
-            type="url"
-            name="avatar"
-            placeholder="Ссылка на аватар"
-            required
-            id="avatar-link-input"
-          />
-          <span
-            className="popup__error popup__error_visible"
-            id="avatar-link-input-error"
-          ></span>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
