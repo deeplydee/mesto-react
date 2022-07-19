@@ -21,6 +21,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       name: title,
       link: link,
     });
+    setTitle('');
+    setLink('');
   }
 
   return (
