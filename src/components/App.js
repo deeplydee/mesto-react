@@ -6,17 +6,19 @@ import api from '../utils/api.js';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
-import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
 
 import EditAvatarPopup from './EditAvatarPopup.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
+import PopupWithConfirmation from './PopupWithConfirmation.js';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
+  const [deleteCardId, setDeleteCardId] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -48,11 +50,17 @@ function App() {
     setSelectedCard(card);
   }
 
+  function handleCardDeleteClick(cardId) {
+    setIsConfirmationPopupOpen(true);
+    setDeleteCardId(cardId);
+  }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
+    setIsConfirmationPopupOpen(false);
   }
 
   useEffect(() => {
@@ -60,7 +68,8 @@ function App() {
       isEditAvatarPopupOpen ||
       isEditProfilePopupOpen ||
       isAddPlacePopupOpen ||
-      selectedCard
+      selectedCard ||
+      isConfirmationPopupOpen
     ) {
       function handleEscKeyPress(evt) {
         if (evt.key === 'Escape') {
@@ -87,6 +96,7 @@ function App() {
     isEditProfilePopupOpen,
     isAddPlacePopupOpen,
     selectedCard,
+    isConfirmationPopupOpen,
   ]);
 
   function handleUpdateAvatar(newUserAvatar) {
@@ -147,6 +157,7 @@ function App() {
   function handleCardDelete(card) {
     api.deleteCard(card._id).then(() => {
       setCards((state) => state.filter((c) => c._id !== card._id));
+      closeAllPopups();
     });
   }
 
@@ -161,7 +172,7 @@ function App() {
           onCardClick={handleCardClick}
           cards={cards}
           onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
+          onCardDeleteClick={handleCardDeleteClick}
         />
         <Footer />
 
@@ -183,12 +194,12 @@ function App() {
           onAddPlace={handleAddPlaceSubmit}
         />
 
-        <PopupWithForm
-          title="Вы уверены?"
-          name="сonfirmation"
+        <PopupWithConfirmation
+          isOpen={isConfirmationPopupOpen}
           onClose={closeAllPopups}
-          textButton={'Да'}
-        ></PopupWithForm>
+          onSubmit={handleCardDelete}
+          card={deleteCardId}
+        />
 
         <ImagePopup
           card={selectedCard}
