@@ -3,7 +3,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 import PopupWithForm from './PopupWithForm.js';
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
@@ -38,7 +38,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      textButton={'Сохранить'}
+      isLoading={isLoading}
+      textButton={!isLoading ? 'Сохранить' : 'Сохранение...'}
     >
       <input
         className="popup__data-input popup__data-input_type_profile-name"

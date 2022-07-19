@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 import PopupWithForm from './PopupWithForm.js';
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const avatarRef = useRef();
 
   function handleSubmit(evt) {
@@ -20,7 +20,8 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      textButton={'Сохранить'}
+      isLoading={isLoading}
+      textButton={!isLoading ? 'Сохранить' : 'Сохранение...'}
     >
       <input
         className="popup__data-input popup__data-input_type_avatar-link"
